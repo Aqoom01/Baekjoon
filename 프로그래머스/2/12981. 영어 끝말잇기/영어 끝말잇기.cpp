@@ -5,53 +5,20 @@
 using namespace std;
 
 vector<int> solution(int n, vector<string> words) {
-    vector<int> result;
-    
-    bool out = false;
     map<string, int> appearance;
-    int count = 0;
-    for(; count < words.size(); count++) {
-        if(out) break;
-        
+    appearance[words[0]] = 1;
+    for(int count = 1; count < words.size(); count++) {
         string cur = words[count];
-        if(count == 0) {
-            appearance.insert({cur, 1});
-            continue;
-        }
-        
         string before = words[count - 1];
-        auto itr = appearance.find(cur);
-        if(itr == appearance.end()) {
-            appearance.insert({cur, 1});
-        }
-        else {
-            out = true;
-        }
-        
         int len_before = before.length();
-        char c_before = before[len_before - 1];
-        cout << "before last char: " << c_before << " / current first char: " << cur[0] << endl;
-    
-        if(c_before != cur[0]) {
-            out = true;
-        }
-    }
-    
-    cout << "out: " << ((out)? "true" : "false") << endl;
-    cout << "count: " << count << endl;
-    if(!out) {
-        result.push_back(0);
-        result.push_back(0);
-    }
-    else {
-        if(count % n == 0) {
-            result.push_back(n);
-            result.push_back((count / n));
+        
+        if(appearance[cur] || before[len_before - 1] != cur[0]) {
+            return {count % n + 1, count / n + 1};
         }
         else {
-            result.push_back(count % n);
-            result.push_back((count / n) + 1);
+            appearance[cur] = 1;
         }
     }
-    return result;
+    
+    return {0, 0};
 }
