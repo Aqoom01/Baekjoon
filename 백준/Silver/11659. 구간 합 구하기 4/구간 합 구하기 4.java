@@ -1,29 +1,33 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int[] arr = new int[n + 1];
-
-        int[] prefix = new int[n + 1];
-
-        for (int i = 1; i <= n; i++) {
-            arr[i] = sc.nextInt();
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        
+        long[] sumArr = new long[N + 1];
+        st = new StringTokenizer(br.readLine());
+        long sum = 0;
+        int idx = 1;
+        while(st.hasMoreTokens()) {
+            sum += Integer.parseInt(st.nextToken());
+            sumArr[idx++] = sum;
         }
-
-        for (int i = 1; i <= n; i++) {
-            prefix[i] = arr[i] + prefix[i - 1];
+        
+        while(M-- > 0) {
+            st = new StringTokenizer(br.readLine());
+            int i = Integer.parseInt(st.nextToken());
+            int j = Integer.parseInt(st.nextToken());
+            
+            bw.write(sumArr[j] - sumArr[i - 1] + "\n");
         }
-
-        for (int i = 0; i < m; i++) {
-            int start = sc.nextInt();
-            int end = sc.nextInt();
-
-            System.out.println(prefix[end] - prefix[start - 1]);
-        }
-    }
+        
+        bw.flush();
+        bw.close();
+	}
 }
