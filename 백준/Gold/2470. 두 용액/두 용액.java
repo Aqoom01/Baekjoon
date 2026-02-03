@@ -2,37 +2,39 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	public static void main(String args[]) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        
-        int N = Integer.parseInt(br.readLine());
-        int[] acids = new int[N];
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int index = 0;
-        while(st.hasMoreTokens()) acids[index++] = Integer.parseInt(st.nextToken());
-        Arrays.sort(acids);
-        
-        int sum = Integer.MAX_VALUE;
-        int min_i = -1;
-        int min_j = N;
-        
-        int i = 0;
-        int j = N - 1;
-        while(i < j) {
-            int temp = acids[i] + acids[j];
-            if(Math.abs(temp) < Math.abs(sum)) {
-                sum = temp;
-                min_i = acids[i];
-                min_j = acids[j];
-            }
-            
-            if(temp > 0) j--;
-            else i++;
-        }
-        
-        bw.write(min_i + " " + min_j + "\n");
-        bw.flush();
-        bw.close();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine());
+		
+		int[] arr = new int[n];
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		for (int i = 0; i < n; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		Arrays.sort(arr);
+		int s = 0;
+		int e = n - 1;
+		int sum = Integer.MAX_VALUE;
+		int a = 0, b = 0;
+		
+		while(s < e) {
+			int op = arr[s] + arr[e];
+			
+			if (Math.abs(op) < sum) {
+				a = arr[s];
+				b = arr[e];
+				sum = Math.abs(op);
+			}
+			if (op == 0) break;
+			else if (op < 0) s++;
+			else e--;
+		}
+		
+		System.out.printf("%d %d", a, b);
+		
 	}
+
 }
