@@ -2,37 +2,40 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	public static void main(String args[]) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        
-        int[][] map = new int[N][M];
-        for(int i = 0; i < N; i++) {
-            char[] inputs = br.readLine().toCharArray();
-            for(int j = 0; j < M; j++) {
-                map[i][j] = inputs[j] - '0';
-            }
-        }
-        
-        int cnt = 0;
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < M - K + 1; j++) {
-                int sum = 0;
-                for(int k = 0; k < K; k++) {
-                	sum += map[i][j + k];
-                }
-                
-                if(sum == 0) cnt++;
-            }
-        }
-        
-        bw.write(cnt + "\n");
-        bw.flush();
-        bw.close();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
+		
+		int[][] arr = new int[n + 1][m + 1];
+		int[][] prefix = new int[n + 1][m + 1];
+		
+		for (int i = 1; i <= n; i++) {
+			String str = br.readLine();
+			for (int j = 0; j < m; j++) {
+				arr[i][j + 1] = str.charAt(j) - '0';
+			}
+		}
+		
+		
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= m; j++) {
+				prefix[i][j] = prefix[i][j - 1] + arr[i][j];
+			}
+		}
+		
+		int cnt = 0;
+		
+		for (int i = 1; i <= n; i++) {
+			for (int j = 0; j + k <= m; j++) {
+				if (prefix[i][j + k] - prefix[i][j] == 0) cnt++;
+			}
+		}
+		
+		System.out.println(cnt);
+		
 	}
+
 }
