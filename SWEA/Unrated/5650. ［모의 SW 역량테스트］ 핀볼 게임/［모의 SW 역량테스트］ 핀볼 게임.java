@@ -42,10 +42,7 @@ public class Solution {
 	    			
 	    			int temp = 0;
 	    			int curDir = dir;
-	    			do {
-//	    				System.out.println("start=(" + curStart.r + "," + curStart.c + " dir: " + dir + "), cur=("
-//	    				        + cur.r + "," + cur.c + "), dir=" + curDir);
-	    				
+	    			do {	    				
 	    				int nr = cur.r + dr[curDir];
 	    				int nc = cur.c + dc[curDir];
 	    				
