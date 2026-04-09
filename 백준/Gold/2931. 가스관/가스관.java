@@ -27,7 +27,7 @@ public class Main {
             }
         }
 
-	    Pos target = findCandidates(start);	    
+	    Pos target = findEmpty(start);	    
 	    char answer = getShape(target);
 	    System.out.println((target.r + 1) + " " + (target.c + 1) + " " + answer);
 	}
@@ -60,7 +60,7 @@ public class Main {
 	    map = new Block[N][M];
 	}
 	
-	private static Pos findCandidates(Pos cur) {
+	private static Pos findEmpty(Pos cur) {
 	    int enterDir = -1;
 	
 	    while (true) {
@@ -103,7 +103,8 @@ public class Main {
 	        int nr = p.r + dr[dir];
 	        int nc = p.c + dc[dir];
 	        
-	        if(nr < 0 || nc < 0 || nr >= map.length || nc >= map[nr].length || map[nr][nc].type == 'M' || map[nr][nc].type == 'Z') need[dir] = false;
+	        if(nr < 0 || nc < 0 || nr >= map.length || nc >= map[nr].length) need[dir] = false;
+	        else if(map[nr][nc].type == 'M' || map[nr][nc].type == 'Z') need[dir] = false;
 	        else need[dir] = map[nr][nc].enter[(dir + 2) % 4] == -1 ? false : true;
 	    }
 	    
