@@ -2,32 +2,47 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+	static Deque<Node> s;
+	static long answer;
+    static int index;
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    	
+    	int N = Integer.parseInt(br.readLine());
+    	answer = 0;
+        index = 0;
+    	s = new ArrayDeque<>();
+    	while(N-- > 0) {
+    		int height = Integer.parseInt(br.readLine());
+    		add(height);
+    	}
+    	add(0);
+    	
+    	System.out.println(answer);
+	}
+    
+    private static void add(int height) {
+        int start = index;
 
-        int N = Integer.parseInt(br.readLine());
-        long[] h = new long[N + 1]; // 마지막 0 추가용
-        for (int i = 0; i < N; i++) {
-            h[i] = Long.parseLong(br.readLine());
+        while (!s.isEmpty() && s.peekLast().height > height) {
+            Node prev = s.removeLast();
+            answer = Math.max(answer, prev.height * (index - prev.idx));
+            start = prev.idx;
         }
-        h[N] = 0;
 
-        Deque<Integer> stack = new ArrayDeque<>();
-        long answer = 0;
-
-        for (int i = 0; i <= N; i++) {
-            while (!stack.isEmpty() && h[stack.peekLast()] > h[i]) {
-                long height = h[stack.removeLast()];
-                long width;
-
-                if (stack.isEmpty()) width = i;
-                else width = i - stack.peekLast() - 1;
-
-                answer = Math.max(answer, height * width);
-            }
-            stack.addLast(i);
+        if (s.isEmpty() || s.peekLast().height < height) {
+            s.addLast(new Node(start, height));
         }
 
-        System.out.println(answer);
+        index++;
     }
+}
+
+class Node {
+	int idx;
+	long height;
+	
+	Node(int idx, int height) {
+		this.idx = idx; this.height = height;
+	}
 }
